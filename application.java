@@ -8,22 +8,25 @@ import java.util.*;
 /* Appointment Management System class */
 public class application {
 
-	private static String [][] userDatabase = 
+	/*private static String userDatabase[][]  = 
 		{
 				{"hstyles","Harry Styles","hstyles@cinco.com.au","12345","1"},
 				{"nhoran","Niall Horan","nhoran@cinco.com.au","12345","1"},
 				{"ltomlinson","Louis Tomlinson","ltomlinson@cinco.com.au","12345","2"},
 				{"zmalik","Zayn Malik","zmalik@cinco.com.au","12345","2"},
 				{"demouser","Demo User","demouser@cinco.com.au","12345","0"}
-		};	
-
+		};*/
+	
+	private static String [][] userDatabase = new String [50][5];
+	private static int num_users = 0;
+	
 	private static final int USERNAME_INDEX = 0;
 	private static final int NAME_INDEX = 1;
 	private static final int EMAIL_INDEX = 2;
 	private static final int PASSWD_INDEX = 3;
 	private static final int ROLE_INDEX = 4;
-
-	private static String ticketDatabase[][];
+	
+	private static String ticketDatabase[][] = new String [500][8];
 	private static int num_tickets = 0;
 
 	private static final int TICKET_FNAME = 0;
@@ -34,15 +37,15 @@ public class application {
 	private static final int TICKET_DESCRIPTION = 5;
 	private static final int TICKET_SEVERITY = 6;
 	private static final int TICKET_STATUS = 7;
-
-
+	
 	// shared Scanner which can be used by all helper methods below
 	private static Scanner SC = new Scanner(System.in);
 
 	// Main class
 	public static void main(String[] args) {
 
-
+		insertDefaultUsers();
+		
 		// Menu system for the program
 		String selection;
 		// Check user input until the exit function is met, i.e. X or x
@@ -244,40 +247,49 @@ public class application {
 		banner(CREATEACC_BANNER);
 		System.out.println("Prompts to create an account");
 
+		
+		String username = "";
+		String name = "";
+		String email = "";
+		String passwd = "";
+
 		// Add more code here
 		System.out.print("Please enter a username: ");
-		String username = get_user_input();
+		username = get_user_input();
 
 		// Check for uniqueness
 
 		System.out.print("Please enter your name : ");
-		String name = get_user_input();
+		name = get_user_input();
 
 		System.out.print("Please enter your email address: ");
-		String email = get_user_input();
+		email = get_user_input();
 
 		// check validity
 
 		// check for uniqueness
 
 		System.out.print("Please enter your password: ");
-		String passwd = get_user_input();
+		passwd = get_user_input();
 
-		System.out.print("Total number of users: " + userDatabase.length);
+		//System.out.print("Total number of users: " + userDatabase.length);
+		System.out.print("Total number of users: " + num_users);
 
 		//userDatabase = Arrays.copyOf(userDatabase, userDatabase.length + 1);
 
-		for(int i=0; i < userDatabase.length; i++)
-			for(int j = 0; j < userDatabase[i].length; j++)
-				userDatabase[i][j]=userDatabase[i][j];
+		//userDatabase[i][j]=userDatabase[i][j];
 
 		//userDatabase[userDatabase.length - 1][0] = username;
-		System.out.print("Total number of users: " + userDatabase.length);
+		
+		//System.out.print("Total number of users: " + userDatabase.length);
+		
 		/*userDatabase[userDatabase.length - 1][0] = username;
 		userDatabase[userDatabase.length - 1][1] = name;
 		userDatabase[userDatabase.length - 1][2] = email;
 		userDatabase[userDatabase.length - 1][3] = passwd;
 		userDatabase[userDatabase.length - 1][4] = "0";*/
+		
+		String defaultRole = "0";
 
 		//userDatabase[userDatabase.length - 1][0] = "sam";
 
@@ -285,11 +297,22 @@ public class application {
 
 
 		// create account in array with username, email, password and privilege set to 0 as Staff and 1 as Technician 
+		
+		userDatabase[num_users][USERNAME_INDEX] = username;
+		userDatabase[num_users][NAME_INDEX] = name;
+		userDatabase[num_users][EMAIL_INDEX] = email;
+		userDatabase[num_users][PASSWD_INDEX] = passwd;
+		userDatabase[num_users][ROLE_INDEX] = defaultRole;
+		++num_users;
+		
+		
 
 		System.out.println("Account " + username + " created");
+		System.out.print("Total number of users: " + num_users);
+		
 		System.out.println();
 		System.out.println();
-		for (int i = 0; i < userDatabase.length; i++) {
+		for (int i = 0; i < num_users; i++) {
 			System.out.print(userDatabase[i][0] + ": ");
 			for (int j = 1; j < userDatabase[i].length; j++) {
 				System.out.print(userDatabase[i][j] + " ");
@@ -429,6 +452,44 @@ public class application {
 		banner(CLOSETICKET_BANNER);
 		System.out.println("Which ticket would you like to close: ");
 		// code to close ticket
+	}
+	
+	private static void insertDefaultUsers()
+	{
+		userDatabase[num_users][USERNAME_INDEX] = "hstyles";
+		userDatabase[num_users][NAME_INDEX] = "Harry Styles";
+		userDatabase[num_users][EMAIL_INDEX] = "hstyles@cinco.com.au";
+		userDatabase[num_users][PASSWD_INDEX] = "12345";
+		userDatabase[num_users][ROLE_INDEX] = "1";
+		++num_users;
+
+		userDatabase[num_users][USERNAME_INDEX] = "nhoran";
+		userDatabase[num_users][NAME_INDEX] = "Niall Horan";
+		userDatabase[num_users][EMAIL_INDEX] = "nhoran@cinco.com.au";
+		userDatabase[num_users][PASSWD_INDEX] = "12345";
+		userDatabase[num_users][ROLE_INDEX] = "1";
+		++num_users;
+
+		userDatabase[num_users][USERNAME_INDEX] = "ltomlinson";
+		userDatabase[num_users][NAME_INDEX] = "Louis Tomlinson";
+		userDatabase[num_users][EMAIL_INDEX] = "ltomlinson@cinco.com.au";
+		userDatabase[num_users][PASSWD_INDEX] = "12345";
+		userDatabase[num_users][ROLE_INDEX] = "2";
+		++num_users;
+
+		userDatabase[num_users][USERNAME_INDEX] = "zmalik";
+		userDatabase[num_users][NAME_INDEX] = "Zayn Malik";
+		userDatabase[num_users][EMAIL_INDEX] = "zmalik@cinco.com.au";
+		userDatabase[num_users][PASSWD_INDEX] = "12345";
+		userDatabase[num_users][ROLE_INDEX] = "2";
+		++num_users;
+
+		userDatabase[num_users][USERNAME_INDEX] = "demouser";
+		userDatabase[num_users][NAME_INDEX] = "Demo User";
+		userDatabase[num_users][EMAIL_INDEX] = "demouser@cinco.com.au";
+		userDatabase[num_users][PASSWD_INDEX] = "12345";
+		userDatabase[num_users][ROLE_INDEX] = "0";
+		++num_users;
 	}
 
 }
