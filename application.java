@@ -9,10 +9,12 @@ import java.util.*;
 public class application {
 
 	// Create array to hold all user information, max 50 users
-	private static String [][] userDatabase = new String [50][5];
+	private static final int NUM_USER_FIELDS = 5;
+	private static final int MAX_NUM_USERS = 50;
+	private static String [][] userDatabase = new String [MAX_NUM_USERS][NUM_USER_FIELDS];
 	// Set number of users to 0
 	private static int num_users = 0;
-	private static final int NUM_USER_FIELDS = 5;
+	
 
 	// Create a link between where data is in the user database array and its id
 	private static final int USERNAME_INDEX = 0;
@@ -273,7 +275,7 @@ public class application {
 		String CREATEACC_BANNER = "Create account";
 		banner(CREATEACC_BANNER);
 		System.out.println("Prompts to create an account");
-
+		pickTechs("1");
 		// Set function variables
 		String username = "";
 		String name = "";
@@ -386,7 +388,7 @@ public class application {
 		String username = "";
 		String[] severity_rating;
 		String severity = "";
-		String service_desk = "";
+		String service_desk = "nhoran";
 		String fname = "";
 		String lname = "";
 		String email = "";
@@ -433,6 +435,9 @@ public class application {
 		if(!confirmation.toUpperCase().contentEquals("Y")) {
 			createTicket(username);
 		}
+		
+		
+		
 		//Create ticket
 		ticketDatabase[num_tickets][TICKET_FNAME] = fname;
 		ticketDatabase[num_tickets][TICKET_LNAME] = lname;
@@ -565,6 +570,71 @@ public class application {
 		}
 	}
 
+	//Picks technician based on workload
+	private static int pickTechs(final String techLevel)
+		{
+		int index = 0;
+		int countTechs = 0;
+		int numTechTickets = 0;
+		int lowestTicketNumber;
+		lowestTicketNumber = numTechTickets;
+		String techWithLowestTickets = "Not set yet";
+		
+		
+		
+		for(int i = 0; i < num_users; ++i) 
+			{
+			numTechTickets = 0;
+			for(int j = 0; j < NUM_USER_FIELDS; ++j) 
+				{
+				//Search through the database fields to find a match with the key
+				if(techLevel.contentEquals(userDatabase[i][j])) 
+					{
+					//System.out.println(userDatabase[i][USERNAME_INDEX]);
+					String techName = userDatabase[i][USERNAME_INDEX];
+					countTechs++;
+					
+					for(int k = 0; k < num_tickets; ++k) 
+						{
+						for(int l = 0; l < NUM_TICKET_FIELDS; ++l) 
+							{
+							//Search through the database fields to find a match with the key
+							if(techName.contentEquals(ticketDatabase[k][l])) 
+								{
+								//System.out.println("\nTicket status updated!");
+								//System.out.println(techName + ": " + ticketDatabase[k][TICKET_ID]);
+								numTechTickets++;
+								
+								}
+							}
+						}
+					
+					System.out.println(techName + " has " + numTechTickets + " tickets");
+					//techWithLowestTickets = techName;
+					if(lowestTicketNumber < numTechTickets) 
+					{
+						if(userDatabase[i][ROLE_INDEX] == techLevel)
+						{
+						lowestTicketNumber = numTechTickets;
+						techWithLowestTickets = userDatabase[i][USERNAME_INDEX];
+						System.out.println(techWithLowestTickets + " has the lowest number of tickets with: " + lowestTicketNumber);
+						}
+					}
+					System.out.println(userDatabase[i][USERNAME_INDEX] + " has the lowest number of tickets with: " + lowestTicketNumber);
+					}
+
+				}
+
+				}
+
+			
+			System.out.println("Num techs: " + countTechs);
+
+		return index;
+		}
+	
+	
+	
 	//This returns true for 'Y' input and false for 'N' input from the user
 	private static boolean get_user_confirmation(final String MSG) {
 
@@ -586,6 +656,8 @@ public class application {
 		return result;
 	}
 
+	
+	
 	// Function to add users that are not ones manually created by each user
 	private static void insertDefaultUsers()
 	{
@@ -624,5 +696,8 @@ public class application {
 		userDatabase[num_users][ROLE_INDEX] = "0";
 		++num_users;
 	}
+	
+	
+	
 
 }
